@@ -1,0 +1,26 @@
+{
+  "kind": {
+    "kind": "Pod",
+    "version": "v1"
+  },
+  "object": {
+    "metadata": {
+      "name": "nginx"
+    },
+    "spec": {
+      "containers": [
+        {
+          "image": "nginx",
+          "name": "nginx"
+        }
+      ]
+    }
+  },
+  "operation": "CREATE",
+  "requestKind": {"version": "v1", "kind": "Pod"},
+  "userInfo": {
+    "username": "alice",
+    "uid": "alice-uid",
+    "groups": ["system:authenticated"]
+  }
+}

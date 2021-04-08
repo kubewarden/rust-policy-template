@@ -1,0 +1,9 @@
+[placeholders.registry]
+type = "string"
+prompt = "[Github action template] To what registry will this policy be published?"
+default = "ghcr.io"
+
+[placeholders.registry_module_path_prefix]
+type = "string"
+prompt = "[Github action template] What registry path prefix will this policy have when publishing?"
+default = "kubewarden/policies"

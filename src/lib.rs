@@ -39,3 +39,70 @@ fn validate(payload: &[u8]) -> CallResult {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use kubewarden_policy_sdk::test::Testcase;
+
+    #[test]
+    fn accept_pod_with_valid_name() -> Result<(), ()> {
+        let request_file = "test_data/pod_creation.json";
+        let tc = Testcase {
+            name: String::from("Valid name"),
+            fixture_file: String::from(request_file),
+            expected_validation_result: true,
+            settings: Settings {},
+        };
+
+        let res = tc.eval(validate).unwrap();
+        assert!(
+            res.mutated_object.is_none(),
+            "Something mutated with test case: {}",
+            tc.name,
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn reject_pod_with_invalid_name() -> Result<(), ()> {
+        let request_file = "test_data/pod_creation_invalid_name.json";
+        let tc = Testcase {
+            name: String::from("Bad name"),
+            fixture_file: String::from(request_file),
+            expected_validation_result: false,
+            settings: Settings {},
+        };
+
+        let res = tc.eval(validate).unwrap();
+        assert!(
+            res.mutated_object.is_none(),
+            "Something mutated with test case: {}",
+            tc.name,
+        );
+
+        Ok(())
+    }
+
+    #[test]
+    fn accept_request_with_non_pod_resource() -> Result<(), ()> {
+        let request_file = "test_data/ingress_creation.json";
+        let tc = Testcase {
+            name: String::from("Ingress creation"),
+            fixture_file: String::from(request_file),
+            expected_validation_result: true,
+            settings: Settings {},
+        };
+
+        let res = tc.eval(validate).unwrap();
+        assert!(
+            res.mutated_object.is_none(),
+            "Something mutated with test case: {}",
+            tc.name,
+        );
+
+        Ok(())
+    }
+}

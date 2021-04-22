@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-// Describe what settings can your policy be provided when
+// Describe the settings your policy expects when
 // loaded by the policy server.
 #[derive(Serialize, Deserialize, Default, Debug)]
 pub(crate) struct Settings {}

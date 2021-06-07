@@ -4,7 +4,7 @@ use guest::prelude::*;
 use k8s_openapi::api::core::v1 as apicore;
 
 extern crate kubewarden_policy_sdk as kubewarden;
-use kubewarden::{request::ValidationRequest, validate_settings};
+use kubewarden::{protocol_version_guest, request::ValidationRequest, validate_settings};
 
 mod settings;
 use settings::Settings;
@@ -13,6 +13,7 @@ use settings::Settings;
 pub extern "C" fn wapc_init() {
     register_function("validate", validate);
     register_function("validate_settings", validate_settings::<Settings>);
+    register_function("protocol_version", protocol_version_guest);
 }
 
 fn validate(payload: &[u8]) -> CallResult {

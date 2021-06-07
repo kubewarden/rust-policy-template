@@ -1,0 +1,17 @@
+rules:
+- apiGroups: [""]
+  apiVersions: ["v1"]
+  resources: ["pods"]
+  operations: ["CREATE"]
+mutating: false
+annotations:
+  io.kubewarden.policy.title: name-of-your-policy
+  io.kubewarden.policy.description: Short description
+  io.kubewarden.policy.author: Name of the author
+  io.kubewarden.policy.url: https://github.com/kubewarden/psp-capabilities
+  io.kubewarden.policy.source: https://github.com/kubewarden/psp-capabilities
+  io.kubewarden.policy.license: Apache-2.0
+  io.kubewarden.policy.usage: |
+    Long explaination.
+
+    **Note well:** this can be Markdown text

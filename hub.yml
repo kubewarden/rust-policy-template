@@ -1,0 +1,16 @@
+name: NAME-OF-YOUR-POLICY
+description: DESCRIPTION OF YOUR POLICY
+homepage: POLICY HOMEPAGE URL
+author:
+  name: AUTHOR1
+  homepage: https://author1.website
+download:
+  # Important: leave the __TAG__ around: this is automatically replaced with the value of the git tag
+  registry: ghcr.io/yourorg/your-policy:__TAG__
+  # url is optional
+  url: https://github.com/your-github-account/your-policy/releases/download/__TAG__/policy.wasm
+keywords:
+  - this is freeform
+resources:
+  - Pod
+mutation: false

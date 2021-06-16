@@ -4,6 +4,7 @@ rules:
   resources: ["pods"]
   operations: ["CREATE"]
 mutating: false
+contextAware: false
 annotations:
   io.kubewarden.policy.title: {{project-name}}
   io.kubewarden.policy.description: Short description

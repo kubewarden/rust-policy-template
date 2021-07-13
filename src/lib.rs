@@ -1,13 +1,24 @@
+use lazy_static::lazy_static;
+
 extern crate wapc_guest as guest;
 use guest::prelude::*;
 
 use k8s_openapi::api::core::v1 as apicore;
 
 extern crate kubewarden_policy_sdk as kubewarden;
-use kubewarden::{protocol_version_guest, request::ValidationRequest, validate_settings};
+use kubewarden::{logging, protocol_version_guest, request::ValidationRequest, validate_settings};
 
 mod settings;
 use settings::Settings;
+
+use slog::{info, o, warn, Logger};
+
+lazy_static! {
+    static ref LOG_DRAIN: Logger = Logger::root(
+        logging::KubewardenDrain::new(),
+        o!("policy" => "sample-policy")
+    );
+}
 
 #[no_mangle]
 pub extern "C" fn wapc_init() {
@@ -19,16 +30,25 @@ pub extern "C" fn wapc_init() {
 fn validate(payload: &[u8]) -> CallResult {
     let validation_request: ValidationRequest<Settings> = ValidationRequest::new(payload)?;
 
+    info!(LOG_DRAIN, "starting validation");
+
     // TODO: you can unmarshal any Kubernetes API type you are interested in
     match serde_json::from_value::<apicore::Pod>(validation_request.request.object) {
         Ok(pod) => {
             // TODO: your logic goes here
             if pod.metadata.name == Some("invalid-pod-name".to_string()) {
+                let pod_name = pod.metadata.name.unwrap();
+                info!(
+                    LOG_DRAIN,
+                    "rejecting pod";
+                    "pod_name" => &pod_name
+                );
                 kubewarden::reject_request(
-                    Some(format!("pod name {:?} is not accepted", pod.metadata.name)),
+                    Some(format!("pod name {} is not accepted", &pod_name)),
                     None,
                 )
             } else {
+                info!(LOG_DRAIN, "accepting resource");
                 kubewarden::accept_request()
             }
         }
@@ -36,6 +56,7 @@ fn validate(payload: &[u8]) -> CallResult {
             // TODO: handle as you wish
             // We were forwarded a request we cannot unmarshal or
             // understand, just accept it
+            warn!(LOG_DRAIN, "cannot unmarshal resource: this policy does not know how to evaluate this resource; accept it");
             kubewarden::accept_request()
         }
     }

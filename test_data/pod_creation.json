@@ -1,4 +1,5 @@
 {
+  "uid": "1299d386-525b-4032-98ae-1949f69f9cfc",
   "kind": {
     "kind": "Pod",
     "version": "v1"
@@ -17,10 +18,15 @@
     }
   },
   "operation": "CREATE",
-  "requestKind": {"version": "v1", "kind": "Pod"},
+  "requestKind": {
+    "version": "v1",
+    "kind": "Pod"
+  },
   "userInfo": {
     "username": "alice",
     "uid": "alice-uid",
-    "groups": ["system:authenticated"]
+    "groups": [
+      "system:authenticated"
+    ]
   }
 }

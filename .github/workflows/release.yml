@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+    - main
+    - master
+    tags:
+    - 'v*'
+
+name: Release policy
+
+jobs:
+
+  test:
+    name: run tests and linters
+    uses: kubewarden/github-actions/.github/workflows/reusable-test-policy-rust.yml@v1
+
+  release:
+    needs: test
+    permissions:
+      # Required to push to GHCR
+      contents: write
+      packages: write
+      # Required by cosign keyless signing
+      id-token: write
+
+    uses: kubewarden/github-actions/.github/workflows/reusable-release-policy-rust.yml@v1
+    with:
+      input-wasm: {{ crate_name }}
+      oci-target: {{ registry }}/{{ registry_module_path_prefix }}/{{ project-name }}
+    {% if registry_module_path_prefix == "kubewarden/policies" %}
+    secrets:
+      {{ "workflow-pat: ${{ secrets.WORKFLOW_PAT }}" }}
+    {% endif %}

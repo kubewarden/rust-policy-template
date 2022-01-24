@@ -27,11 +27,16 @@ jobs:
     name: Build and publish policy
     runs-on: ubuntu-latest
     needs: test
+    permissions:
+      # Required to push to GHCR
+      contents: read
+      packages: write
+      # Required by cosign keyless signing
+      id-token: write
     env:
       WASM_BINARY_NAME: {{ crate_name }}
       OCI_TARGET: {{ registry }}/{{ registry_module_path_prefix }}/{{ project-name }}
       METADATA_FILE: metadata.yml
-      KWCTL_VERSION: v0.1.9
     steps:
       -
         name: Checkout code
@@ -44,11 +49,11 @@ jobs:
           toolchain: stable
           target: wasm32-unknown-unknown
       -
-        name: Download kwctl
-        run: |
-          {{ "curl -L https://github.com/kubewarden/kwctl/releases/download/${{env.KWCTL_VERSION}}/kwctl-linux-amd64.zip -o kwctl.zip" }}
-          unzip kwctl.zip
-          chmod 755 kwctl
+        name: Install kwctl
+        uses: kubewarden/kwctl-gh-action-installer@main
+      -
+        name: Install cosign
+        uses: sigstore/cosign-installer@main
       -
         name: Build Wasm module
         uses: actions-rs/cargo@v1
@@ -58,7 +63,7 @@ jobs:
       -
         name: Annotate Wasm module
         run: |
-          {{ "./kwctl annotate -m ${{ env.METADATA_FILE }} -o policy-annotated.wasm target/wasm32-unknown-unknown/release/${WASM_BINARY_NAME}.wasm" }}
+          {{ "kwctl annotate -m ${{ env.METADATA_FILE }} -o policy-annotated.wasm target/wasm32-unknown-unknown/release/${WASM_BINARY_NAME}.wasm" }}
 
       -
         name: Login to GitHub Container Registry
@@ -70,14 +75,30 @@ jobs:
       -
         name: Publish Wasm policy artifact to OCI registry with the 'latest' tag
         if: {{ "${{ startsWith(github.ref, 'refs/heads/') }}" }}
+        env:
+          COSIGN_EXPERIMENTAL: 1
         run: |
-          {{ "./kwctl push policy-annotated.wasm ${{ env.OCI_TARGET }}:latest" }}
+          set -ex
+          echo Pushing policy to OCI container registry
+          {{ "IMMUTABLE_REF=$(kwctl push -o json policy-annotated.wasm ${{ env.OCI_TARGET }}:latest | jq -r .immutable_ref)" }}
+
+          echo Keyless signing of policy using cosign
+          {{ "cosign sign ${IMMUTABLE_REF}" }}
+
       -
         name: Publish Wasm policy artifact to OCI registry with the version tag and 'latest'
         if: {{ "${{ startsWith(github.ref, 'refs/tags/') }}" }}
+        env:
+          COSIGN_EXPERIMENTAL: 1
         run: |
+          set -ex
           export OCI_TAG=$(echo $GITHUB_REF | sed -e "s|refs/tags/||")
-          {{ "./kwctl push policy-annotated.wasm ${{ env.OCI_TARGET }}:${OCI_TAG}" }}
+
+          echo Pushing policy to OCI container registry
+          {{ "IMMUTABLE_REF=$(kwctl push -o json policy-annotated.wasm ${{ env.OCI_TARGET }}:${OCI_TAG} | jq -r .immutable_ref)" }}
+
+          echo Keyless signing of policy using cosign
+          {{" cosign sign ${IMMUTABLE_REF}" }}
       -
         name: Create Release
         if: {{ "${{ startsWith(github.ref, 'refs/tags/') }}" }}

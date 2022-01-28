@@ -7,3 +7,13 @@ default = "ghcr.io"
 type = "string"
 prompt = "[Github action template] What registry path prefix will this policy have when publishing?"
 default = "kubewarden/policies"
+
+[template]
+cargo_generate_version = ">=0.12.0"
+include = [
+  "Cargo.toml",
+  "hub.yml",
+  "metadata.yml",
+  "README.md",
+  ".github/workflows/release.yml",
+]

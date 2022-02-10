@@ -1,0 +1,1 @@
+file::rename("renovate.json.sample", "renovate.json");

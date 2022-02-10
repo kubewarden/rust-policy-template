@@ -1,3 +1,6 @@
+[hooks]
+pre = ["pre-script.rhai"]
+
 [placeholders.registry]
 type = "string"
 prompt = "[Github action template] To what registry will this policy be published?"

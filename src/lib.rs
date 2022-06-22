@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 
-extern crate wapc_guest as guest;
 use guest::prelude::*;
+use kubewarden_policy_sdk::wapc_guest as guest;
 
 use k8s_openapi::api::core::v1 as apicore;
 
@@ -45,6 +45,8 @@ fn validate(payload: &[u8]) -> CallResult {
                 );
                 kubewarden::reject_request(
                     Some(format!("pod name {} is not accepted", &pod_name)),
+                    None,
+                    None,
                     None,
                 )
             } else {

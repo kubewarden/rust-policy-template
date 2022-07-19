@@ -15,7 +15,8 @@ default = "kubewarden/policies"
 cargo_generate_version = ">=0.12.0"
 include = [
   "Cargo.toml",
-  "hub.yml",
+  "artifacthub-pkg.yml",
+  "artifacthub-repo.yml",
   "metadata.yml",
   "README.md",
   ".github/workflows/release.yml",

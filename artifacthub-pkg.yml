@@ -9,12 +9,6 @@ homeURL: https://author1.website
 containersImages:
 - name: policy
   image: "{{registry}}/{{registry_module_path_prefix}}/{{project-name}}:v0.1.0"
-install: |
-  The policy can be obtained using [`kwctl`](https://github.com/kubewarden/kwctl/):
-
-  ```console
-  kwctl pull {{registry}}/{{registry_module_path_prefix}}/{{project-name}}:v0.1.0
-  ```
 keywords:
 - this is freeform
 links:

@@ -2,6 +2,9 @@ Please, note well: this file and the scaffold were generated from [a
 template](https://github.com/kubewarden/rust-policy-template). Make
 this project yours!
 
+You can use `cargo generate -g https://github.com/kubewarden/rust-policy-template.git`
+to create your Policy from this template.
+
 # Kubewarden policy {{project-name}}
 
 ## Description

@@ -28,7 +28,3 @@ jobs:
     with:
       input-wasm: {{ crate_name }}
       oci-target: {{ registry }}/{{ registry_module_path_prefix }}/{{ project-name }}
-    {% if registry_module_path_prefix == "kubewarden/policies" %}
-    secrets:
-      {{ "workflow-pat: ${{ secrets.WORKFLOW_PAT }}" }}
-    {% endif %}

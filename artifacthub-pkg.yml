@@ -1,4 +1,8 @@
 ---
+###
+### Use `make artifacthub-pkg.yml` to auto-generate this file
+### See docs.kubewarden.io for publishing to ArtifactHub
+###
 version: 0.1.0
 name: {{project-name}}
 displayName: LIKE NAME, BUT FANCIER

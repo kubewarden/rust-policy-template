@@ -6,6 +6,10 @@ policy.wasm: $(SOURCE_FILES) Cargo.*
 	cp target/wasm32-wasi/release/*.wasm policy.wasm
 
 artifacthub-pkg.yml: metadata.yml Cargo.toml
+	$(warning If you are updating the artifacthub-pkg.yml file for a release, \
+	  remember to set the VERSION variable with the proper value. \
+	  To use the latest tag, use the following command:  \
+	  make VERSION=$$(git describe --tags --abbrev=0 | cut -c2-) annotated-policy.wasm)
 	kwctl scaffold artifacthub --metadata-path metadata.yml --version $(VERSION) \
 		--questions-path questions-ui.yml --output artifacthub-pkg.yml
 

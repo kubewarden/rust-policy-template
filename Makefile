@@ -1,5 +1,5 @@
 SOURCE_FILES := $(shell test -e src/ && find src -type f)
-VERSION := $(shell sed --posix -n 's,^version = \"\(.*\)\",\1,p' Cargo.toml)
+VERSION := $(shell sed -n 's,^version = \"\(.*\)\",\1,p' Cargo.toml)
 
 policy.wasm: $(SOURCE_FILES) Cargo.*
 	cargo build --target=wasm32-wasi --release

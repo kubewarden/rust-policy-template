@@ -69,6 +69,7 @@ mod tests {
     use super::*;
 
     use kubewarden_policy_sdk::test::Testcase;
+    use std::collections::HashSet;
 
     #[test]
     fn accept_pod_with_valid_name() -> Result<(), ()> {
@@ -77,7 +78,7 @@ mod tests {
             name: String::from("Valid name"),
             fixture_file: String::from(request_file),
             expected_validation_result: true,
-            settings: Settings {},
+            settings: Settings {invalid_names: HashSet::from(["invalid name".to_owned()])},
         };
 
         let res = tc.eval(validate).unwrap();
@@ -97,7 +98,7 @@ mod tests {
             name: String::from("Bad name"),
             fixture_file: String::from(request_file),
             expected_validation_result: false,
-            settings: Settings {},
+            settings: Settings {invalid_names: HashSet::from(["invalid name".to_owned()])},
         };
 
         let res = tc.eval(validate).unwrap();
@@ -117,7 +118,7 @@ mod tests {
             name: String::from("Ingress creation"),
             fixture_file: String::from(request_file),
             expected_validation_result: true,
-            settings: Settings {},
+            settings: Settings {invalid_names: HashSet::from(["invalid name".to_owned()])},
         };
 
         let res = tc.eval(validate).unwrap();

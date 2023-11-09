@@ -4,6 +4,7 @@ use guest::prelude::*;
 use kubewarden_policy_sdk::wapc_guest as guest;
 
 use k8s_openapi::api::core::v1 as apicore;
+use k8s_openapi::Resource;
 
 extern crate kubewarden_policy_sdk as kubewarden;
 use kubewarden::{logging, protocol_version_guest, request::ValidationRequest, validate_settings};
@@ -31,7 +32,10 @@ fn validate(payload: &[u8]) -> CallResult {
     let validation_request: ValidationRequest<Settings> = ValidationRequest::new(payload)?;
 
     info!(LOG_DRAIN, "starting validation");
-
+    if validation_request.request.kind.kind != apicore::Pod::KIND {
+        warn!(LOG_DRAIN, "Policy validates Pods only. Accepting resource"; "kind" => &validation_request.request.kind.kind);
+        return kubewarden::accept_request();
+    }
     // TODO: you can unmarshal any Kubernetes API type you are interested in
     match serde_json::from_value::<apicore::Pod>(validation_request.request.object) {
         Ok(pod) => {

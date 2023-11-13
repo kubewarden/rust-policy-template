@@ -1,0 +1,28 @@
+name: Try to expand local template using cargo-generate
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Render template and build
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: demo
+      CARGO_GENERATE_VALUE_REGISTRY: ghcr.io
+      CARGO_GENERATE_VALUE_REGISTRY_MODULE_PATH_PREFIX: "kubewarden/policies"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cargo-generate/cargo-generate-action@latest
+        with:
+          name: ${{ env.PROJECT_NAME }}
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      # we need to move the generated project to a temp folder, away from the template project
+      # otherwise `cargo` runs would fail
+      # see https://github.com/rust-lang/cargo/issues/9922
+      - name: test
+        run: |
+          mv $PROJECT_NAME ${{ runner.temp }}/
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          cargo clippy -- -D warnings
+          cargo test

@@ -1,5 +1,6 @@
 [hooks]
 pre = ["pre-script.rhai"]
+post = ["post-script.rhai"]
 
 [placeholders.registry]
 type = "string"
@@ -21,4 +22,4 @@ include = [
   "README.md",
   ".github/workflows/release.yml",
 ]
-igore = [".github/workflows/cargo-generate-test.yml"]
+igore = ["Makefile", ".github/workflows/cargo-generate-test.yml"]

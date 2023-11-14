@@ -5,6 +5,24 @@
     "kind": "Ingress",
     "version": "v1beta1"
   },
+  "resource": {
+    "group": "networking.k8s.io",
+    "version": "v1",
+    "resource": "ingresses"
+  },
+  "operation": "CREATE",
+  "requestKind": {
+    "group": "networking.k8s.io",
+    "version": "v1",
+    "kind": "Ingress"
+  },
+  "userInfo": {
+    "username": "alice",
+    "uid": "alice-uid",
+    "groups": [
+      "system:authenticated"
+    ]
+  },
   "object": {
     "metadata": {
       "name": "prod"
@@ -12,7 +30,9 @@
     "spec": {
       "tls": [
         {
-          "hosts": ["some-host.com"],
+          "hosts": [
+            "some-host.com"
+          ],
           "secretName": "secret-name-tls"
         }
       ],

@@ -14,15 +14,29 @@ jobs:
       - uses: cargo-generate/cargo-generate-action@latest
         with:
           name: ${{ env.PROJECT_NAME }}
-      - uses: actions-rs/toolchain@v1
+      - name: Prepare Rust environment
+        uses: actions-rs/toolchain@v1
         with:
+          profile: minimal
           toolchain: stable
-      # we need to move the generated project to a temp folder, away from the template project
-      # otherwise `cargo` runs would fail
-      # see https://github.com/rust-lang/cargo/issues/9922
-      - name: test
+          target: wasm32-wasi
+      - name: Install kwctl
+        uses: kubewarden/github-actions/kwctl-installer@v3.1.11
+      - name: Install bats
+        uses: mig4/setup-bats@v1
+        with:
+          bats-version: 1.8.2
+      - name: Move rendered template
         run: |
+          # we need to move the generated project to a temp folder, away from the template project
+          # otherwise `cargo` runs would fail
+          # see https://github.com/rust-lang/cargo/issues/9922
           mv $PROJECT_NAME ${{ runner.temp }}/
+      - name: Test
+        run: |
           cd ${{ runner.temp }}/$PROJECT_NAME
-          cargo clippy -- -D warnings
-          cargo test
+          make test
+      - name: e2e-tests
+        run: |
+          cd ${{ runner.temp }}/$PROJECT_NAME
+          make e2e-tests

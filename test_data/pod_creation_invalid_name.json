@@ -1,8 +1,34 @@
 {
   "uid": "1299d386-525b-4032-98ae-1949f69f9cfc",
   "kind": {
-    "kind": "Pod",
-    "version": "v1"
+    "group": "",
+    "version": "v1",
+    "kind": "Pod"
+  },
+  "resource": {
+    "group": "",
+    "version": "v1",
+    "resource": "pods"
+  },
+  "requestKind": {
+    "group": "",
+    "version": "v1",
+    "kind": "Pod"
+  },
+  "requestResource": {
+    "group": "",
+    "version": "v1",
+    "resource": "pods"
+  },
+  "name": "nginx",
+  "namespace": "default",
+  "operation": "CREATE",
+  "userInfo": {
+    "username": "kubernetes-admin",
+    "groups": [
+      "system:masters",
+      "system:authenticated"
+    ]
   },
   "object": {
     "metadata": {
@@ -16,17 +42,5 @@
         }
       ]
     }
-  },
-  "operation": "CREATE",
-  "requestKind": {
-    "version": "v1",
-    "kind": "Pod"
-  },
-  "userInfo": {
-    "username": "alice",
-    "uid": "alice-uid",
-    "groups": [
-      "system:authenticated"
-    ]
   }
 }

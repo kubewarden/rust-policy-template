@@ -77,7 +77,7 @@ mod tests {
             name: String::from("Valid name"),
             fixture_file: String::from(request_file),
             expected_validation_result: true,
-            settings: Settings {},
+            settings: Settings::default(),
         };
 
         let res = tc.eval(validate).unwrap();
@@ -97,7 +97,7 @@ mod tests {
             name: String::from("Bad name"),
             fixture_file: String::from(request_file),
             expected_validation_result: false,
-            settings: Settings {},
+            settings: Settings::default(),
         };
 
         let res = tc.eval(validate).unwrap();
@@ -117,7 +117,7 @@ mod tests {
             name: String::from("Ingress creation"),
             fixture_file: String::from(request_file),
             expected_validation_result: true,
-            settings: Settings {},
+            settings: Settings::default(),
         };
 
         let res = tc.eval(validate).unwrap();

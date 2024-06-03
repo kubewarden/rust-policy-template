@@ -1,3 +1,5 @@
+[![Stable](https://img.shields.io/badge/status-stable-brightgreen?style=for-the-badge)](https://github.com/kubewarden/community/blob/main/REPOSITORIES.md#stable)
+
 Please, note well: this file and the scaffold were generated from [a
 template](https://github.com/kubewarden/rust-policy-template). Make
 this project yours!

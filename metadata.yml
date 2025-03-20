@@ -19,6 +19,7 @@ annotations:
   io.kubewarden.policy.ociUrl: {{registry}}/{{registry_module_path_prefix}}/{{project-name}}
   # kubewarden specific:
   io.kubewarden.policy.title: {{project-name}}
+  io.kubewarden.policy.version: 0.1.0
   io.kubewarden.policy.description: Short description
   io.kubewarden.policy.author: {{authors}}
   io.kubewarden.policy.url: https://github.com/yourorg/{{project-name}}

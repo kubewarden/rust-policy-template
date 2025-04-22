@@ -23,9 +23,7 @@ jobs:
       - name: Install kwctl
         uses: kubewarden/github-actions/kwctl-installer@v3.1.11
       - name: Install bats
-        uses: mig4/setup-bats@v1.2.0
-        with:
-          bats-version: 1.11.0
+        run: sudo apt install -y bats
       - name: Move rendered template
         run: |
           # we need to move the generated project to a temp folder, away from the template project

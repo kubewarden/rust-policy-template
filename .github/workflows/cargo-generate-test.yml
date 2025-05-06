@@ -15,11 +15,8 @@ jobs:
         with:
           name: ${{ env.PROJECT_NAME }}
       - name: Prepare Rust environment
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          target: wasm32-wasip1
+        run: |
+          rustup toolchain install stable --profile minimal --target wasm32-wasip1
       - name: Install kwctl
         uses: kubewarden/github-actions/kwctl-installer@v3.1.11
       - name: Install bats

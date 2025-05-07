@@ -22,4 +22,4 @@ include = [
   "README.md",
   ".github/workflows/release.yml",
 ]
-igore = ["Makefile", ".github/workflows/cargo-generate-test.yml"]
+ignore = ["Makefile", ".github/workflows/cargo-generate-test.yml"]

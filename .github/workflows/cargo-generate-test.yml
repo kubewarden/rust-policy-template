@@ -9,11 +9,18 @@ jobs:
       PROJECT_NAME: demo
       CARGO_GENERATE_VALUE_REGISTRY: ghcr.io
       CARGO_GENERATE_VALUE_REGISTRY_MODULE_PATH_PREFIX: "kubewarden/policies"
+      CARGO_GENERATE_VERSION: "v0.22.0"
+      CARGO_GENERATE_CHECKSUM: "c724263a5ec7ce3536777926250ded6ed8388747abaabd43e94ea06a045bbaab5e5e8055e57febb834c77e8ffdf120958e4617fa0a67594597acb0420935b4bb"
     steps:
       - uses: actions/checkout@v4
-      - uses: cargo-generate/cargo-generate-action@latest
-        with:
-          name: ${{ env.PROJECT_NAME }}
+      - name: Run cargo generate
+        run: |
+          echo "$CARGO_GENERATE_CHECKSUM  cargo-generate.tar.gz" > checksum
+          curl -L -o cargo-generate.tar.gz "https://github.com/cargo-generate/cargo-generate/releases/download/$CARGO_GENERATE_VERSION/cargo-generate-$CARGO_GENERATE_VERSION-x86_64-unknown-linux-musl.tar.gz"
+          sha512sum -c checksum
+          tar -xvf cargo-generate.tar.gz
+
+          ./cargo-generate generate --path . --verbose --name $PROJECT_NAME
       - name: Prepare Rust environment
         run: |
           rustup toolchain install stable --profile minimal --target wasm32-wasip1

@@ -12,7 +12,7 @@ jobs:
       CARGO_GENERATE_VERSION: "v0.22.0"
       CARGO_GENERATE_CHECKSUM: "c724263a5ec7ce3536777926250ded6ed8388747abaabd43e94ea06a045bbaab5e5e8055e57febb834c77e8ffdf120958e4617fa0a67594597acb0420935b4bb"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run cargo generate
         run: |
           echo "$CARGO_GENERATE_CHECKSUM  cargo-generate.tar.gz" > checksum

@@ -24,6 +24,7 @@ jobs:
       # Required by cosign keyless signing
       id-token: write
 
-    uses: kubewarden/github-actions/.github/workflows/reusable-release-policy-rust.yml@v4.0.0
+    # uses: kubewarden/github-actions/.github/workflows/reusable-release-policy-rust.yml@v4.0.0
+    uses: kubewarden/github-actions/.github/workflows/reusable-release-policy-rust.yml@v4.1.0
     with:
       oci-target: {{ registry }}/{{ registry_module_path_prefix }}/{{ project-name }}

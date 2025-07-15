@@ -2,7 +2,7 @@ rules:
 - apiGroups: [""]
   apiVersions: ["v1"]
   resources: ["pods"]
-  operations: ["CREATE"]
+  operations: ["CREATE", "UPDATE"]
 mutating: false
 contextAwareResources: []
 executionMode: kubewarden-wapc

@@ -12,7 +12,7 @@ jobs:
 
   test:
     name: run tests and linters
-    uses: kubewarden/github-actions/.github/workflows/reusable-test-policy-rust.yml@v4.0.0
+    uses: kubewarden/github-actions/.github/workflows/reusable-test-policy-rust.yml@v4.5.3
 
   release:
     needs: test
@@ -24,6 +24,6 @@ jobs:
       # Required by cosign keyless signing
       id-token: write
 
-    uses: kubewarden/github-actions/.github/workflows/reusable-release-policy-rust.yml@v4.0.0
+    uses: kubewarden/github-actions/.github/workflows/reusable-release-policy-rust.yml@v4.5.3
     with:
       oci-target: {{ registry }}/{{ registry_module_path_prefix }}/{{ project-name }}

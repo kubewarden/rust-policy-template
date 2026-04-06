@@ -12,7 +12,7 @@ jobs:
       CARGO_GENERATE_VERSION: "v0.22.0"
       CARGO_GENERATE_CHECKSUM: "c724263a5ec7ce3536777926250ded6ed8388747abaabd43e94ea06a045bbaab5e5e8055e57febb834c77e8ffdf120958e4617fa0a67594597acb0420935b4bb"
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Run cargo generate
         run: |
           echo "$CARGO_GENERATE_CHECKSUM  cargo-generate.tar.gz" > checksum
@@ -25,7 +25,7 @@ jobs:
         run: |
           rustup toolchain install stable --profile minimal --target wasm32-wasip1
       - name: Install kwctl
-        uses: kubewarden/github-actions/kwctl-installer@v4.5.3
+        uses: kubewarden/github-actions/kwctl-installer@a97c0700ad65b276f15fda9195937bb0db850dcf # v4.6.4
       - name: Install bats
         run: sudo apt install -y bats
       - name: Move rendered template
